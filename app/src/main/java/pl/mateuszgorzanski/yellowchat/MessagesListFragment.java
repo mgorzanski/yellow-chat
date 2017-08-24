@@ -1,10 +1,12 @@
 package pl.mateuszgorzanski.yellowchat;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
@@ -62,6 +64,14 @@ public class MessagesListFragment extends Fragment {
         SimpleAdapter simpleAdapter = new SimpleAdapter(fragmentMessagesListView.getContext(), aList, R.layout.message_row_view, from, to);
         ListView androidListView = (ListView) fragmentMessagesListView.findViewById(R.id.messagesListView);
         androidListView.setAdapter(simpleAdapter);
+
+        androidListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parentAdapter, View view, int position, long id) {
+                Intent intent = new Intent(getActivity(), MessageThreadActivity.class);
+                startActivity(intent);
+            }
+        });
+
 
         return fragmentMessagesListView;
     }
