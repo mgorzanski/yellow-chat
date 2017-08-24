@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/contact_row"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    android:padding="7dp">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/contact_row_view_image"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:contentDescription="@string/app_name"
+        android:padding="10dp" />
+
+    <TextView
+        android:id="@+id/contact_row_view_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="17dp"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        android:layout_weight="1"/>
+
+    <ImageButton
+        android:id="@+id/contact_row_view_message_bt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:src="@drawable/ic_message_black_24dp"
+        android:background="@null"/>
+
+
+</LinearLayout>
