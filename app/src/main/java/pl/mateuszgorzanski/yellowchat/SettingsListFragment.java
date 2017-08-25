@@ -1,21 +1,16 @@
 package pl.mateuszgorzanski.yellowchat;
 
-import android.support.v4.app.Fragment;
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.preference.PreferenceFragment;
 
 /**
  * Created by Mateusz on 24.08.2017.
  */
 
-public class SettingsListFragment extends Fragment {
-    public SettingsListFragment() {
-
-    }
+public class SettingsListFragment extends PreferenceFragment {
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanveState) {
-        return inflater.inflate(R.layout.fragment_settings_list, container, false);
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        addPreferencesFromResource(R.xml.app_preferences);
     }
 }
