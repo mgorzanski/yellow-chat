@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-    <Preference
-        android:title="Wyloguj się"
-        android:key="logout">
-    </Preference>
+    <PreferenceCategory android:title="Moje konto">
+        <Preference
+            android:key="showProfile"
+            android:title="Pokaż profil"></Preference>
+        <Preference
+            android:key="logout"
+            android:title="Wyloguj się"></Preference>
+    </PreferenceCategory>
+
 </PreferenceScreen>
