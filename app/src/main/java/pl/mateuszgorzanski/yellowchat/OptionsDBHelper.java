@@ -19,7 +19,7 @@ public class OptionsDBHelper extends SQLiteOpenHelper {
 
     private static final String SQL_CREATE_OPTIONS =
             "CREATE TABLE " + TABLE_NAME + " (" +
-                    COLUMN_NAME_ID + " INTEGER PRIMARY KEY AUTO_INCREMENT," +
+                    COLUMN_NAME_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
                     COLUMN_NAME_OPTION + " TEXT," +
                     COLUMN_NAME_VALUE + " TEXT)";
 
