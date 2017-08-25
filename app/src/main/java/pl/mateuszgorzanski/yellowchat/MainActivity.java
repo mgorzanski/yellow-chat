@@ -95,6 +95,7 @@ public class MainActivity extends AppCompatActivity {
         if(cursor.getCount() == 0) {
             Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
+            finish();
         }
 
 
