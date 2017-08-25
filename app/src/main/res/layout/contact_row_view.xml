@@ -11,14 +11,14 @@
         android:layout_width="70dp"
         android:layout_height="70dp"
         android:contentDescription="@string/app_name"
-        android:src="@drawable/ic_account"
-        android:padding="10dp" />
+        android:padding="10dp"
+        android:src="@drawable/ic_account" />
 
     <TextView
         android:id="@+id/contact_row_view_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingTop="17dp"
+        android:paddingTop="24dp"
         android:textSize="15sp"
         android:textStyle="bold"
         android:layout_weight="1"/>

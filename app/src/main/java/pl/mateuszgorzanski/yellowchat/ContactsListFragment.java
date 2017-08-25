@@ -1,5 +1,6 @@
 package pl.mateuszgorzanski.yellowchat;
 
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -7,9 +8,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -18,6 +21,8 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Mateusz on 24.08.2017.
@@ -80,7 +85,7 @@ public class ContactsListFragment extends Fragment {
         @Override
         protected Void doInBackground(Void... arg0) {
             HttpHandler sh = new HttpHandler();
-            String url = "https://api.myjson.com/bins/lug31";
+            String url = "http://yellow-chat.7m.pl/get_data.php?users";
             String jsonStr = sh.makeServiceCall(url);
 
             Log.e(TAG, "Response from url: " + jsonStr);
@@ -88,17 +93,19 @@ public class ContactsListFragment extends Fragment {
                 try {
                     JSONObject jsonObj = new JSONObject(jsonStr);
 
-                    JSONArray contacts = jsonObj.getJSONArray("contacts");
+                    JSONArray contacts = jsonObj.getJSONArray("users");
 
                     for (int i = 0; i < contacts.length(); i++) {
                         JSONObject c = contacts.getJSONObject(i);
                         String id = c.getString("id");
-                        String login = c.getString("name");
+                        String login = c.getString("login");
+                        String profile_image = c.getString("profile_image");
 
                         HashMap<String, String> contact = new HashMap<>();
 
                         contact.put("id", id);
                         contact.put("login", login);
+                        contact.put("profile_image", profile_image);
 
                         contactList.add(contact);
                     }
@@ -130,11 +137,45 @@ public class ContactsListFragment extends Fragment {
         @Override
         protected void onPostExecute(Void result) {
             super.onPostExecute(result);
-            ListAdapter adapter = new SimpleAdapter(getActivity(), contactList, R.layout.contact_row_view, new String[]{ "login" },
-                    new int[]{R.id.contact_row_view_title});
+            ListAdapter adapter = new MySimpleAdapter(getActivity(), contactList, R.layout.contact_row_view, new String[]{},
+                    new int[]{});
             lv.setAdapter(adapter);
         }
     }
 
+    public class MySimpleAdapter extends SimpleAdapter {
+        private Context mContext;
+        public LayoutInflater inflater = null;
+
+        public MySimpleAdapter(Context context,
+                               List<? extends Map<String, ?>> data, int resource, String[] from,
+                               int[] to) {
+            super(context, data, resource, from, to);
+            mContext = context;
+            inflater = (LayoutInflater) mContext
+                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            View vi = convertView;
+            if (convertView == null)
+                vi = inflater.inflate(R.layout.contact_row_view, null);
+
+            HashMap<String, Object> data = (HashMap<String, Object>) getItem(position);
+
+            TextView login = (TextView) vi.findViewById(R.id.contact_row_view_title);
+            String loginText  = (String) data.get("login");
+            login.setText(loginText);
+
+            if (data.get("profile_image") != "null") {
+                new ProfileImageDownloadTask((ImageView) vi.findViewById(R.id.contact_row_view_image))
+                        .execute((String) data.get("profile_image"));
+            }
+
+            return vi;
+        }
+
+    }
 
 }
