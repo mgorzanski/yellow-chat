@@ -34,20 +34,6 @@ public class ContactsListFragment extends Fragment {
 
     ArrayList<HashMap<String, String>> contactList;
 
-    public ContactsListFragment() {
-
-    }
-    // Array of strings for ListView Title
-    String[] contactRowViewTitle = new String[]{
-            "Mateusz Górzański", "ListView Title 2", "ListView Title 3", "ListView Title 4",
-            "ListView Title 5", "ListView Title 6", "ListView Title 7", "ListView Title 8",
-    };
-
-    int[] contactRowViewImage = new int[]{
-            R.drawable.ic_profile, R.drawable.ic_account, R.drawable.ic_account, R.drawable.ic_account,
-            R.drawable.ic_account, R.drawable.ic_account, R.drawable.ic_account, R.drawable.ic_account,
-    };
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanveState) {
         View fragmentContactsListView = inflater.inflate(R.layout.fragment_contacts_list, container, false);
@@ -76,11 +62,11 @@ public class ContactsListFragment extends Fragment {
     }
 
     private class getContacts extends AsyncTask<Void, Void, Void> {
-        @Override
+        /*@Override
         protected void onPreExecute() {
             super.onPreExecute();
             Toast.makeText(getActivity(),"Trwa pobieranie danych",Toast.LENGTH_LONG).show();
-        }
+        }*/
 
         @Override
         protected Void doInBackground(Void... arg0) {
