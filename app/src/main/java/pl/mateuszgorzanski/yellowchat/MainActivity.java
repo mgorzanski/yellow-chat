@@ -18,6 +18,8 @@ public class MainActivity extends AppCompatActivity {
     private Fragment fragment;
     private Fragment defaultFragment;
     private FragmentManager fragmentManager;
+    private int currentFragment;
+    private boolean fragmentChanged;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,6 +105,7 @@ public class MainActivity extends AppCompatActivity {
 
         //load default layout
         defaultFragment = new MessagesListFragment();
+        currentFragment = 1;
         //final FragmentTransaction transaction = fragmentManager.beginTransaction();
         //transaction.replace(R.id.main_container, defaultFragment).commit();
         getFragmentManager().beginTransaction().replace(R.id.main_container, defaultFragment).commit();
@@ -114,18 +117,32 @@ public class MainActivity extends AppCompatActivity {
                 int id = item.getItemId();
                 switch (id) {
                     case R.id.navigation_messages:
-                        fragment = new MessagesListFragment();
+                        if(currentFragment != 1) {
+                            fragment = new MessagesListFragment();
+                            currentFragment = 1;
+                            fragmentChanged = true;
+                        }
                         break;
                     case R.id.navigation_contacts:
-                        fragment = new ContactsListFragment();
+                        if(currentFragment != 2) {
+                            fragment = new ContactsListFragment();
+                            currentFragment = 2;
+                            fragmentChanged = true;
+                        }
                         break;
                     case R.id.navigation_settings:
-                        fragment = new SettingsListFragment();
+                        if(currentFragment != 3) {
+                            fragment = new SettingsListFragment();
+                            currentFragment = 3;
+                            fragmentChanged = true;
+                        }
                         break;
                 }
                 //final FragmentTransaction transaction = fragmentManager.beginTransaction();
                 //transaction.replace(R.id.main_container, fragment).commit();
-                getFragmentManager().beginTransaction().replace(R.id.main_container, fragment).commit();
+                if(fragmentChanged) {
+                    getFragmentManager().beginTransaction().replace(R.id.main_container, fragment).commit();
+                }
                 return true;
             }
         });

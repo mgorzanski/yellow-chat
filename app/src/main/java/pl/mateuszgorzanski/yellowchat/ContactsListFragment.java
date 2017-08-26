@@ -2,6 +2,7 @@ package pl.mateuszgorzanski.yellowchat;
 
 import android.app.Fragment;
 import android.content.Context;
+import android.content.res.AssetFileDescriptor;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -31,6 +32,7 @@ import java.util.Map;
 public class ContactsListFragment extends Fragment {
     private String TAG = MainActivity.class.getSimpleName();
     private ListView lv;
+    private AsyncTask<Void, Void, Void> getContacts;
 
     ArrayList<HashMap<String, String>> contactList;
 
@@ -42,7 +44,8 @@ public class ContactsListFragment extends Fragment {
         contactList = new ArrayList<>();
         lv = (ListView) fragmentContactsListView.findViewById(R.id.contactsListView);
 
-        new getContacts().execute();
+        getContacts = new getContacts();
+        getContacts.execute();
 
         /*for (int i = 0; i < 8; i++) {
             HashMap<String, String> hm = new HashMap<String, String>();
@@ -59,6 +62,12 @@ public class ContactsListFragment extends Fragment {
         //androidListView.setAdapter(simpleAdapter);
 
         return fragmentContactsListView;
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        getContacts.cancel(true);
     }
 
     private class getContacts extends AsyncTask<Void, Void, Void> {
@@ -126,6 +135,11 @@ public class ContactsListFragment extends Fragment {
             ListAdapter adapter = new MySimpleAdapter(getActivity(), contactList, R.layout.contact_row_view, new String[]{},
                     new int[]{});
             lv.setAdapter(adapter);
+        }
+
+        @Override
+        protected void onCancelled(Void result) {
+            super.onCancelled();
         }
     }
 

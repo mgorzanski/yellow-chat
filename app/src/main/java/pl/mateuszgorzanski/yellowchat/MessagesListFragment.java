@@ -35,6 +35,7 @@ import java.util.Map;
 public class MessagesListFragment extends Fragment {
     private String TAG = MainActivity.class.getSimpleName();
     private ListView lv;
+    private AsyncTask<Void, Void, Void> getMessages;
 
     ArrayList<HashMap<String, String>> messagesList;
 
@@ -90,7 +91,8 @@ public class MessagesListFragment extends Fragment {
         messagesList = new ArrayList<>();
         lv = (ListView) fragmentMessagesListView.findViewById(R.id.messagesListView);
 
-        new getMessages().execute();
+        getMessages = new getMessages();
+        getMessages.execute();
 
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parentAdapter, View view, int position, long id) {
@@ -100,6 +102,12 @@ public class MessagesListFragment extends Fragment {
         });
 
         return fragmentMessagesListView;
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        getMessages.cancel(true);
     }
 
     public String getOption(String[] projection, String selection, String[] selectionArg, String sortOrder) {
@@ -208,6 +216,11 @@ public class MessagesListFragment extends Fragment {
             ListAdapter adapter = new MySimpleAdapter(getActivity(), messagesList, R.layout.message_row_view, new String[]{},
                     new int[]{});
             lv.setAdapter(adapter);
+        }
+
+        @Override
+        protected void onCancelled(Void result) {
+            super.onCancelled();
         }
     }
 
