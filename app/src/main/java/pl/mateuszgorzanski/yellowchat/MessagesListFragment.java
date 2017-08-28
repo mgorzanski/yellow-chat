@@ -39,6 +39,8 @@ public class MessagesListFragment extends Fragment {
 
     ArrayList<HashMap<String, String>> messagesList;
 
+    int msgId = -1;
+
     // Array of strings for ListView Title
     /*String[] messageRowViewTitle = new String[]{
             "Mateusz Górzański", "ListView Title 2", "ListView Title 3", "ListView Title 4",
@@ -96,7 +98,12 @@ public class MessagesListFragment extends Fragment {
 
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parentAdapter, View view, int position, long id) {
+                String msgIdString = Integer.toString(msgId);
+                int resId = getResources().getIdentifier(msgIdString, "id", getActivity().getPackageName());
+                TextView msg = (TextView) view.findViewById(R.id.message_row_view_short_description);
+                String msg_txt = (String) msg.getTag();
                 Intent intent = new Intent(getActivity(), MessageThreadActivity.class);
+                intent.putExtra("EXTRA_FROM_USER_ID", msg_txt);
                 startActivity(intent);
             }
         });
@@ -255,6 +262,9 @@ public class MessagesListFragment extends Fragment {
 
             user_login.setText(user_login_text);
             message.setText(message_text);
+            //message.setId(msgId + 1);
+            //msgId++;
+            message.setTag(data.get("from_user_id"));
             date.setText(date_text);
 
             if (data.get("from_user_profile_image") != "null") {
